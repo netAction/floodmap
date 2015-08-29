@@ -54,20 +54,23 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
 	<script type="application/javascript">
-	var map = L.map('map').setView([51.505, -0.09], 8);
+	var map = L.map('map', { maxZoom: 11 }).setView([51.505, -0.09], 8);
 	map.locate({setView: true, maxZoom: 8});
 	L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
 		attribution: 'Openstreetmap | <a href="http://www.floodmap.net/">Floodmap</a> | <a href="https://github.com/netAction/floodmap">Sources</a>',
-		maxZoom: 14,
+		maxZoom: 18,
 	}).addTo(map);
 
 
-	var blueLayer = L.tileLayer('http://www.floodmap.net/getTile.aspx?zoom={z}&x={x}&y={y}&elev=30&poly=0').addTo(map);
+	var blueLayer = L.tileLayer('http://www.floodmap.net/getTile.aspx?zoom={z}&x={x}&y={y}&elev=30&poly=0')
+		.setOpacity(0.5)
+		.addTo(map);
 
 	$('#input input')
 		.on('change keyup paste input',function () {
 			map.removeLayer(blueLayer);
 			blueLayer = L.tileLayer('http://www.floodmap.net/getTile.aspx?zoom={z}&x={x}&y={y}&elev='+$('#input input').val()+'&poly=0')
+				.setOpacity(0.5)
 				.addTo(map);
 
 
